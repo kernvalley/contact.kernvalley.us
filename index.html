@@ -76,7 +76,7 @@
 				<p>This is the contact page for <a href="https://kernvalley.us" rel="noopener noreferrer external"><span>KernValley.US</span><svg class="icon" fill="currentColor" height="18" width="18" role="img" aria-hidden="true"><use xlink:href="/img/icons.svg#link-external"></use></svg></a>.</p>
 			</div>
 			<br />
-			<form is="share-target" name="contact" class="card align-left" action="/submit/" data-netlify="true">
+			<form is="share-target" id="contact-form" name="contact" class="card align-left" action="/" enctype="application/x-www-form-urlencoded" method="POST" data-netlify="true" netlify-honeypot="check">
 				<fieldset class="no-border">
 					<legend>Contact Info &amp; Message</legend>
 					<div class="form-group">
@@ -105,6 +105,10 @@
 							<option value="Squirrel Valley"></option>
 							<option value="Onyx"></option>
 						</datalist>
+					</div>
+					<div class="form-group" hidden="">
+						<label for="h-check" class="input-label">Agree</label>
+						<input type="checkbox" name="check" id="h-check" class="input" />
 					</div>
 					<div class="form-group">
 						<label for="contact-subject" class="input-label required">Subject</label>
