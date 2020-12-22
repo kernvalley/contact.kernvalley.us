@@ -2,9 +2,27 @@
 	--link-color: #049ccf;
 	--link-decoration: underline;
 	min-height: 80vh;
+	grid-area: main;
+}
+
+#main > form {
+	margin-bottom: 1.2rem;
 }
 
 #share-target {
 	gap: 0.3em 0.5em;
 	justify-content: center;
+}
+
+.btns {
+	justify-content: space-evenly;
+	gap: 8px;
+}
+
+.btn.btn-outline[type="reset"] {
+	color: var(--button-reject-background);
+}
+
+.btns > .btn {
+	max-width: 200px;
 }

@@ -1,6 +1,17 @@
 @import url("https://cdn.kernvalley.us/css/core-css/theme/default/index.css");
 @import url("https://cdn.kernvalley.us/css/core-css/theme/properties.css");
 
-:root {
-	--map-width: 100%;
+@media all {
+	:root[data-theme], :root:not([data-theme]) {
+		--header-height: 0;
+		--nav-height: 4rem;
+		--accent-color-light: #008000;
+		--accent-color-dark: var(--accent-color-light);
+		--button-primary-background-light: var(--accent-color-light);
+		--button-primary-background-dark: var(--button-primary-background-light);
+		--button-primary-hover-background-light: #045804;
+		--button-primary-hover-background-dark: var(--button-primary-background-hover-light);
+		--button-primary-active-background-light: #013801;
+		--button-primary-active-background-dark: var(--button-primary-background-active-light);
+	}
 }
