@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Contact from as `share_target` with `autocomplete`
+- Implement Google Analytics
 
 ### Changed
 - Customized various config and skeleton from template

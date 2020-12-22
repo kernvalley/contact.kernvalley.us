@@ -1,7 +1,7 @@
 'use strict';
 /* global config */
 /* eslint-env serviceworker */
-/* 2020-12-22T10:50 */
+/* 2020-12-22T11:35 */
 
 self.importScripts('/sw-config.js');
 
