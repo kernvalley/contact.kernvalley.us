@@ -1,13 +1,13 @@
 {
-  "name": "static template",
-  "short_name": "static",
+  "name": "KernValley.US Contact",
+  "short_name": "KRV Contact",
   "version": "1.0.0",
   "lang": "en",
   "dir": "ltr",
-  "description": "A template repository for static sites, including skeleton JS, CSS, SVGs, fonts, etc.",
+  "description": "Contact page for KernValley.US",
   "orientation": "any",
   "start_url": "/",
-  "theme_color": "#007bff",
+  "theme_color": "#008000",
   "background_color": "#242424",
   "display": "standalone",
   "icons": [{
@@ -27,13 +27,40 @@
     "purpose": "any maskable"
   }],
   "screenshots": [{
-    "src": "https://i.imgur.com/Mx3Wlp0l.jpeg",
-    "sizes": "640x313",
+    "src": "https://i.imgur.com/6IabNEi.jpg",
+    "sizes": "1353x667",
+    "type": "image/jpeg"
+  },{
+    "src": "https://i.imgur.com/6IabNEih.jpg",
+    "sizes": "1024x505/",
+    "type": "image/jpeg"
+  }, {
+    "src": "https://i.imgur.com/6IabNEil.jpg",
+    "sizes": "640x316",
+    "type": "image/jpeg"
+  }, {
+    "src": "https://i.imgur.com/6IabNEim.jpg",
+    "sizes": "320x158",
     "type": "image/jpeg"
   }],
+  "features": [
+    "Share any site or app, pre-filling subject and body",
+    "Autocompletion of name, phone, and email fields",
+    "Offline loading of page, instant loading when online (submission requires internet)"
+  ],
   "shortcuts": [],
-  "share_target": {},
-  "categories": [],
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "subject",
+      "text": "body"
+    }
+  },
+  "categories": [
+    "utility"
+  ],
   "related_applications": [],
   "developer": {
 		"name": "Chris Zuber",
