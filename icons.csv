@@ -1,11 +1,7 @@
 public-share,img/adwaita-icons/places/folder-publicshare.svg
 system-software-install,img/adwaita-icons/apps/system-software-install.svg
 call-start,img/adwaita-icons/actions/call-start.svg
-go-next,img/adwaita-icons/actions/go-next.svg
-go-prev,img/adwaita-icons/actions/go-prev.svg
 mark-location,img/adwaita-icons/actions/mark-location.svg
-note,img/octicons/note.svg
-check,img/octicons/check.svg
 facebook,img/logos/facebook.svg
 twitter,img/logos/mono/twitter.svg
 linkedin,img/logos/mono/linkedin.svg
@@ -16,3 +12,5 @@ link,img/octicons/link.svg
 link-external,img/octicons/link-external.svg
 x,img/octicons/x.svg
 apps,img/apps.svg
+web-browser,img/adwaita-icons/apps/web-browser.svg
+eye,img/octicons/eye.svg

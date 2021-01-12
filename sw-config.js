@@ -10,7 +10,6 @@ const config = {
 		'/js/index.min.js',
 		'/css/index.min.css',
 		'/img/icons.svg',
-		'/img/neon.svg',
 		'https://cdn.kernvalley.us/components/toast-message.html',
 		'https://cdn.kernvalley.us/components/toast-message.css',
 		'https://cdn.kernvalley.us/components/github/user.html',
