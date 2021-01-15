@@ -61,7 +61,10 @@
   "categories": [
     "utility"
   ],
-  "related_applications": [],
+  "related_applications": [{
+    "platform": "webapp",
+    "url": "https://contact.kernvalley.us/manifest.json"
+  }],
   "developer": {
 		"name": "Chris Zuber",
 		"url": "https://kernvalley.us"
