@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="no-js border-box smooth-scroll" data-layout="wide" data-theme="auto" prefix="og: http://ogp.me/ns#" itemtype="https://schema.org/WebPage" itemscope="">
+<html lang="en" dir="ltr" class="no-js border-box smooth-scroll" data-layout="wide" data-theme="auto" prefix="og: http://ogp.me/ns#" itemtype="https://schema.org/ContactPage" itemscope="">
 	<head>
 		<base href="/" />
 		<meta charset="utf-8" />
@@ -70,7 +70,13 @@
 				<span class="mobile-hidden">Install</span>
 			</button>
 		</nav>
-		<main id="main" class="center">
+		<main id="main" class="center"  itemprop="potentialAction" itemtype="https://schema.org/CommunicateAction" itemscope="">
+			<div itemprop="recipient" itemtype="https://schema.org/Organization" itemscope="hidden">
+				<meta itemprop="name" content="KernValley.US" />
+				<meta itemprop="url" content="https://kernvalley.us" />
+				<meta itemprop="image logo" content="https://kernvalley.us/img/icon-192.png" />
+			</div>
+			<link itemprop="actionStatus" href="https://schema.org/PotentialActionStatus" />
 			<div class="status-box info">
 				<a href="https://kernvalley.us" rel="noopener noreferrer external" class="inline-block">
 					<img src="https://cdn.kernvalley.us/img/branding/kernvalley.us.svg" width="96" height="96" class="round" crossorigin="anonymous" referrerpolicy="no-referrer" loading="eager" decoding="async" alt="KernValley.US" />
@@ -78,7 +84,10 @@
 				<p>This is the contact page for <a href="https://kernvalley.us" rel="noopener noreferrer external"><span>KernValley.US</span><svg class="icon" fill="currentColor" height="18" width="18" role="img" aria-hidden="true"><use xlink:href="/img/icons.svg#link-external"></use></svg></a>.</p>
 			</div>
 			<br />
-			<form is="share-target" id="contact-form" name="contact" class="card align-left" action="/" enctype="application/x-www-form-urlencoded" method="POST" data-netlify="true" netlify-honeypot="check">
+			<form is="share-target" id="contact-form" name="contact" class="card align-left" action="/" enctype="application/x-www-form-urlencoded" method="POST" data-netlify="true" netlify-honeypot="check" itemprop="target" itemtype="https://schema.org/EntryPoint" itemscope="">
+				<meta itemprop="httpMethod" content="GET" />
+				<meta itemprop="encodingType" content="application/x-www-form-urlencoded" />
+				<meta itemprop="urlTemplate" content="https://contact.kernvalley.us/{?subject,body}" />
 				<fieldset class="no-border">
 					<legend>Contact Info &amp; Message</legend>
 					<div class="form-group">
