@@ -84,10 +84,11 @@
 				<p>This is the contact page for <a href="https://kernvalley.us" rel="noopener noreferrer external"><span>KernValley.US</span><svg class="icon" fill="currentColor" height="18" width="18" role="img" aria-hidden="true"><use xlink:href="/img/icons.svg#link-external"></use></svg></a>.</p>
 			</div>
 			<br />
-			<form is="share-target" id="contact-form" name="contact" class="card align-left" action="/" enctype="application/x-www-form-urlencoded" method="POST" data-netlify="true" netlify-honeypot="check" itemprop="target" itemtype="https://schema.org/EntryPoint" itemscope="">
+			<form is="share-target" id="contact-form" name="contact" class="card align-left" action="/api/slack" enctype="application/x-www-form-urlencoded" method="GET" itemprop="target" itemtype="https://schema.org/EntryPoint" itemscope="">
 				<meta itemprop="httpMethod" content="GET" />
 				<meta itemprop="encodingType" content="application/x-www-form-urlencoded" />
 				<meta itemprop="urlTemplate" content="https://contact.kernvalley.us/{?subject,body}" />
+				<input type="hidden" name="origin" value="https://contact.kernvalley.us" />
 				<fieldset class="no-border">
 					<legend>Contact Info &amp; Message</legend>
 					<div class="form-group">
@@ -100,22 +101,7 @@
 					</div>
 					<div class="form-group">
 						<label for="contact-phone" class="input-label">Phone</label>
-						<input type="tel" name="tel" id="contact-phone" class="input" placeholder="555-555-5555" autocomplete="tel" />
-					</div>
-					<div class="form-group">
-						<label for="contact-city">City</label>
-						<input type="text" name="addressLocality" id="contact-city" class="input" list="city-list" placeholder="City name" autocomplete="address-level2" />
-						<datalist id="city-list">
-							<option value="Lake Isabella"></option>
-							<option value="South Lake"></option>
-							<option value="Weldon"></option>
-							<option value="Kernville"></option>
-							<option value="Bodfish"></option>
-							<option value="Wofford Heights"></option>
-							<option value="Mountain Mesa"></option>
-							<option value="Squirrel Valley"></option>
-							<option value="Onyx"></option>
-						</datalist>
+						<input type="tel" name="phone" id="contact-phone" class="input" placeholder="555-555-5555" autocomplete="tel" />
 					</div>
 					<div class="form-group" hidden="">
 						<label for="h-check" class="input-label">Agree</label>
