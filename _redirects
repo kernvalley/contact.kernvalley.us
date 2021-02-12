@@ -1,2 +1,2 @@
-/api/slack	/.netlify/functions/slack	200
+/api/*		/.netlify/functions/:splat	200
 /privacy	https://kernvalley.us/privacy/

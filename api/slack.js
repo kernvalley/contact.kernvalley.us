@@ -2,7 +2,7 @@
 
 function getRequestUrl({ path, multiValueQueryStringParameters = {}}, parseParams = true) {
 	const { URL } = require('url');
-	const url = new URL(path, process.env.BASE_URL);
+	const url = new URL(path, process.env.BASE_URL || 'http://localhost:8888');
 
 	if (parseParams === true) {
 		Object.entries(multiValueQueryStringParameters).forEach(([key, values]) => {
@@ -91,15 +91,15 @@ exports.handler = async function(event) {
 
 			// @TODO validate email address
 			if (! url.searchParams.has('subject')) {
-				throw new HTTPError('No subject given', 404);
+				throw new HTTPError('No subject given', 400);
 			} else if (! url.searchParams.has('body')) {
-				throw new HTTPError('No body given', 404);
+				throw new HTTPError('No body given', 400);
 			} else if (! url.searchParams.has('name')) {
-				throw new HTTPError('No name given', 404);
+				throw new HTTPError('No name given', 400);
 			} else if (! url.searchParams.has('email')) {
-				throw new HTTPError('No email address given', 404);
+				throw new HTTPError('No email address given', 400);
 			} else if (! url.searchParams.has('origin')) {
-				throw new HTTPError('Missing origin of message', 404);
+				throw new HTTPError('Missing origin of message', 400);
 			}
 
 			const fetch = require('node-fetch');
@@ -178,7 +178,17 @@ exports.handler = async function(event) {
 			return err.response;
 		} else {
 			console.error(err);
-			return HTTPError.createResponse('An unknown error occurred', 500);
+			return {
+				statusCode: 500,
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					raw: err,
+					error: {
+						message: err.message,
+						name: err.name,
+					}
+				})
+			};
 		}
 	}
 };
