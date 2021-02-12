@@ -1,7 +1,8 @@
 /* eslint no-unused-vars: 0 */
 /* eslint-env serviceworker */
+
 const config = {
-	version: '1.0.0',
+	version: '1.1.0',
 	fresh: [
 		'https://apps.kernvalley.us/apps.json',
 	].map(url => new URL(url, location.origin).href),
@@ -22,7 +23,9 @@ const config = {
 		'https://cdn.kernvalley.us/img/logos/instagram.svg',
 	].map(path => new URL(path, location.origin).href),
 	allowed: [
-		/https:\/\/i\.imgur\.com\/*/,
-		/https:\/\/api\.github\.com\/users\/*/,
+		'https://i.imgur.com/',
+	],
+	allowedFresh: [
+		'https://api.github.com/users',
 	]
 };

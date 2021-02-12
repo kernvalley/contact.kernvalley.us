@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.0] - 2021-02-12
+
+### Changed
+- Use Netlify Function to submit form submissions to Slack
+
 ## [v1.0.0] - 2020-12-22
 
 ### Added
