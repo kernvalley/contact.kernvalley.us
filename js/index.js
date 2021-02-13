@@ -53,6 +53,7 @@ ready().then(() => {
 		event.preventDefault();
 		const form = event.target;
 		const body = new FormData(form);
+		attr('#contact-form fieldset, #contact-form button', { disabled: true });
 		const uuid = uuidv6();
 		const date = new Date().toISOString();
 
@@ -86,6 +87,8 @@ ready().then(() => {
 		} catch(err) {
 			console.error(err);
 			alert('An unknown error occured sending message');
+		} finally {
+			attr('#contact-form fieldset, #contact-form button', { disabled: false });
 		}
 	});
 });
