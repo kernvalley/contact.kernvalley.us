@@ -84,12 +84,15 @@
 				<p>This is the contact page for <a href="https://kernvalley.us" rel="noopener noreferrer external"><span>KernValley.US</span><svg class="icon" fill="currentColor" height="18" width="18" role="img" aria-hidden="true"><use xlink:href="/img/icons.svg#link-external"></use></svg></a>.</p>
 			</div>
 			<br />
-			<form is="share-target" id="contact-form" name="contact" class="card align-left" action="/api/slack" enctype="application/x-www-form-urlencoded" method="GET" itemprop="target" itemtype="https://schema.org/EntryPoint" itemscope="">
+			<form is="share-target" id ="contact-form" name="contact" class="card align-left" action="/api/slack" enctype="multipart/form-data" method="POST" itemprop="target" itemtype="https://schema.org/EntryPoint" itemscope="">
+				<noscript class="status-box warn block">
+					<p>For spam protection purposes, this contact form requires JavaScript.</p>
+				</noscript>
 				<meta itemprop="httpMethod" content="GET" />
 				<meta itemprop="encodingType" content="application/x-www-form-urlencoded" />
 				<meta itemprop="urlTemplate" content="https://contact.kernvalley.us/{?subject,body}" />
 				<input type="hidden" name="origin" value="https://contact.kernvalley.us" />
-				<fieldset class="no-border">
+				<fieldset class="no-border" hidden="" disabled="">
 					<legend>Contact Info &amp; Message</legend>
 					<div class="form-group">
 						<label for="contact-name" class="input-label required">Name</label>
@@ -117,13 +120,13 @@
 					</div>
 				</fieldset>
 				<div class="flex row no-wrap btns">
-					<button type="submit" class="btn btn-outline grow-1">
+					<button type="submit" class="btn btn-outline grow-1" disabled="">
 						<svg class="icon" width="18" height="18" fill="currentColor" role="img" aria-hiddeh="true">
 							<use xlink:href="/img/icons.svg#check"></use>
 						</svg>
 						<span>Submit</span>
 					</button>
-					<button type="reset" class="btn btn-outline grow-1">
+					<button type="reset" class="btn btn-outline grow-1" disabled="">
 						<svg class="icon" width="18" height="18" fill="currentColor" role="img" aria-hiddeh="true">
 							<use xlink:href="/img/icons.svg#x"></use>
 						</svg>

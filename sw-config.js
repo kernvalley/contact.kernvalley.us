@@ -2,7 +2,7 @@
 /* eslint-env serviceworker */
 
 const config = {
-	version: '1.1.0',
+	version: '1.1.1',
 	fresh: [
 		'https://apps.kernvalley.us/apps.json',
 	].map(url => new URL(url, location.origin).href),
@@ -24,6 +24,7 @@ const config = {
 	].map(path => new URL(path, location.origin).href),
 	allowed: [
 		'https://i.imgur.com/',
+		/https:\/\/\\w+\.githubusercontent\.com\/u\//,
 	],
 	allowedFresh: [
 		'https://api.github.com/users',

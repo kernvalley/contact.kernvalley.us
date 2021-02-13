@@ -1,142 +1,88 @@
 /* eslint-env node */
+const { HTTPError } = require('./http-error');
+const ALLOWED_ORIGINS = [
+	'kernvalley.us',
+	'whiskeyflatdays.com',
+	new URL(process.env.BASE_URL || 'http://localhost').hostname,
+];
 
-function getRequestUrl({ path, multiValueQueryStringParameters = {}}, parseParams = true) {
+function allowedOrigin(url) {
 	const { URL } = require('url');
-	const url = new URL(path, process.env.BASE_URL || 'http://localhost:8888');
+	const { hostname, protocol } = new URL(url);
 
-	if (parseParams === true) {
-		Object.entries(multiValueQueryStringParameters).forEach(([key, values]) => {
-			values.forEach(value => url.searchParams.append(key, value));
-		});
-	}
-	return url;
-}
-
-class HTTPError extends Error {
-	constructor(message, status = 500) {
-		super(message);
-
-		if (! Number.isInteger(status) || status < 100 || status > 600) {
-			throw new HTTPError('Invalid HTTP Status Code', 500);
-		} else {
-			this.status = status;
-		}
-	}
-
-	get body() {
-		return {
-			error: {
-				status: this.status,
-				message: this.message,
-			}
-		};
-	}
-
-	get headers() {
-		switch(this.status) {
-			case 405:
-				return {
-					'Content-Type': 'application/json',
-					'Access-Control-Allow-Origin': '*',
-					'Access-Control-Allow-Methods': 'GET, OPTIONS',
-					'Options': 'GET, OPTIONS',
-				};
-
-			default:
-				return {
-					'Content-Type': 'application/json',
-					'Access-Control-Allow-Origin': '*',
-				};
-		}
-	}
-
-	get response() {
-		return {
-			statusCode: this.status,
-			headers: this.headers,
-			body: JSON.stringify(this),
-		};
-	}
-
-	toJSON() {
-		return this.body;
-	}
-
-	toString() {
-		return JSON.stringify(this);
-	}
-
-	static createResponse(message, status) {
-		try {
-			const err = new HTTPError(message, status);
-			return err.response;
-		} catch(err) {
-			if (err instanceof HTTPError) {
-				return err.response;
-			} else {
-				return new HTTPError('An unknown error occured', 500);
-			}
-		}
-	}
+	return protocol === 'https:' && (ALLOWED_ORIGINS.includes(hostname)
+		|| hostname.endsWith('.kernvalley.us'));
 }
 
 exports.handler = async function(event) {
 	try {
-		if (event.httpMethod === 'GET') {
+		if (event.httpMethod === 'POST') {
 			if (typeof process.env.SLACK_WEBHOOK !== 'string') {
 				throw new HTTPError('Not configured', 501);
 			}
 
-			const url = getRequestUrl(event);
+			console.info(event.headers);
 
-			// @TODO validate email address
-			if (! url.searchParams.has('subject')) {
+			const { postData } = require('./post-data');
+			const { isEmail, isString, isUrl, isTel, validateMessageHeaders } = require('./validation');
+
+			const {
+				fields: { subject, body, email, name, phone, origin, check } = {}
+			} = await postData(event);
+
+			if (isString(check, { minLength: 0 })) {
+				throw new HTTPError('Invalid data submitted', 400);
+			} else if (! validateMessageHeaders(event)) {
+				throw new HTTPError('Invalid or missing signature', 400);
+			} else if (! isString(subject, { minLength: 4 })) {
 				throw new HTTPError('No subject given', 400);
-			} else if (! url.searchParams.has('body')) {
+			} else if (! isString(body, { minLength: 4 })) {
 				throw new HTTPError('No body given', 400);
-			} else if (! url.searchParams.has('name')) {
+			} else if (! isString(name, 4)) {
 				throw new HTTPError('No name given', 400);
-			} else if (! url.searchParams.has('email')) {
-				throw new HTTPError('No email address given', 400);
-			} else if (! url.searchParams.has('origin')) {
-				throw new HTTPError('Missing origin of message', 400);
+			} else if (! isEmail(email)) {
+				throw new HTTPError('No email address given or email is invalid', 400);
+			} else if (! isUrl(origin)) {
+				throw new HTTPError('Missing or invalid origin for message', 400);
+			} else if (! allowedOrigin(origin) || ! allowedOrigin(event.headers.origin)) {
+				throw new HTTPError('Not allowed', 400);
 			}
 
 			const fetch = require('node-fetch');
 			const message = {
 				channel: '#message',
-				text: `New Messsage on ${url.searchParams.get('origin')}`,
+				text: `New Messsage on ${origin}`,
 				blocks: [{
 					type: 'header',
 					text: {
 						type: 'plain_text',
-						text:`New Message from ${url.searchParams.get('name')}`
+						text:`New Message from ${name}`
 					}
 				}, {
 					type: 'section',
 					fields: [{
 						type: 'plain_text',
-						text: `Email: ${url.searchParams.get('email')}`
+						text: `Email: ${email}`
 					},{
 						type: 'plain_text',
-						text: `Phone: ${url.searchParams.get('phone') || 'Not given'}`
+						text: `Phone: ${isTel(phone) ? phone : 'Not given'}`
 					}, {
 						type: 'plain_text',
-						text: `Subject: ${url.searchParams.get('subject')}`,
+						text: `Subject: ${subject}`,
 					}, {
 						type: 'plain_text',
-						text: `Site: ${url.searchParams.get('origin')}`,
+						text: `Site: ${origin}`,
 					}, {
 						type: 'plain_text',
-						text: url.searchParams.get('body'),
+						text: body,
 					}],
 					accessory: {
 						type: 'button',
 						text: {
 							type: 'plain_text',
-							text: `Reply to ${url.searchParams.get('name')} <${url.searchParams.get('email')}>`,
+							text: `Reply to ${name} <${email}>`,
 						},
-						url: `mailto:${url.searchParams.get('email')}`,
+						url: `mailto:${email}`,
 						action_id: 'reply'
 					}
 				}]
@@ -155,6 +101,7 @@ exports.handler = async function(event) {
 					statusCode: 204,
 					headers: {
 						'Access-Control-Allow-Origin': '*',
+						'TK': 'N',
 					}
 				};
 			} else {
@@ -166,8 +113,8 @@ exports.handler = async function(event) {
 				statusCode: 204,
 				headers: {
 					'Access-Control-Allow-Origin': '*',
-					'Access-Control-Allow-Methods': 'GET, OPTIONS',
-					'Options': 'GET, OPTIONS',
+					'Access-Control-Allow-Methods': 'POST, OPTIONS',
+					'Options': 'POST, OPTIONS',
 				}
 			};
 		} else {
