@@ -21,7 +21,6 @@ export async function submitHandler(event) {
 	const body = new FormData(form);
 	attr('#contact-form fieldset, #contact-form button', { disabled: true });
 	const uuid = uuidv6();
-	const date = new Date().toISOString();
 
 	body.set('origin', location.origin);
 	body.delete('check');
