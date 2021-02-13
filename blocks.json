@@ -1,0 +1,61 @@
+{
+    "channel": "#message",
+    "text": "New Messsage on https://youthful-ptolemy-382377-c60a9c.netlify.live",
+    "blocks": [
+        {
+            "type": "header",
+            "text": {
+                "type": "plain_text",
+                "text": "Subject: Testing new buttons"
+            }
+        },
+        {
+            "type": "section",
+            "fields": [
+                {
+                    "type": "plain_text",
+                    "text": "From: Christopher Wayne Zuber"
+                },
+                {
+                    "type": "plain_text",
+                    "text": "Email: admin@kernvalley.us"
+                },
+                {
+                    "type": "plain_text",
+                    "text": "Phone: +16616196712"
+                },
+                {
+                    "type": "plain_text",
+                    "text": "Site: https://youthful-ptolemy-382377-c60a9c.netlify.live"
+                },
+                {
+                    "type": "plain_text",
+                    "text": "Subject: Testing new buttons"
+                }
+            ]
+        },
+        {
+            "type": "context",
+            "elements": [
+                {
+                    "type": "plain_text",
+                    "text": "Should display an email and a call button."
+                }
+            ]
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Reply to <admin@kernvalley.us>"
+                    },
+                    "url": "mailto:admin@kernvalley.us",
+                    "action_id": "email"
+                }
+            ]
+        }
+    ]
+}

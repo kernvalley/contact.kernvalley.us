@@ -54,37 +54,48 @@ exports.handler = async function(event) {
 					type: 'header',
 					text: {
 						type: 'plain_text',
-						text:`New Message from ${name}`
+						text:`Subject: ${subject}`
 					}
 				}, {
 					type: 'section',
 					fields: [{
 						type: 'plain_text',
-						text: `Email: ${email}`
-					},{
-						type: 'plain_text',
-						text: `Phone: ${isTel(phone) ? phone : 'Not given'}`
+						text: `From: ${name}`,
 					}, {
-						type: 'plain_text',
-						text: `Subject: ${subject}`,
+						type: 'mrkdwn',
+						text: `Email: ${email}`,
 					}, {
-						type: 'plain_text',
+						type: 'mrkdwn',
+						text: `Phone: ${isTel(phone) ? phone : 'Not given'}`,
+					}, {
+						type: 'mrkdwn',
 						text: `Site: ${origin}`,
-					}, {
+					}]
+				}, {
+					type: 'divider',
+				}, {
+					type: 'context',
+					elements: [{
 						type: 'plain_text',
 						text: body,
-					}],
-					accessory: {
+					}]
+				}, {
+					type: 'actions',
+					elements: [{
 						type: 'button',
 						text: {
 							type: 'plain_text',
-							text: `Reply to ${name} <${email}>`,
+							text: `Reply to <${email}>`,
 						},
 						url: `mailto:${email}`,
-						action_id: 'reply'
-					}
+						action_id: 'email'
+					}]
 				}]
 			};
+
+			Promise.resolve(require('fs')).then(fs => {
+				fs.writeFile('blocks.json', JSON.stringify(message, null, 4), console.error);
+			});
 
 			const resp = await fetch(process.env.SLACK_WEBHOOK, {
 				method: 'POST',
