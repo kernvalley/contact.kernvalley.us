@@ -108,6 +108,9 @@ exports.handler = async function(event) {
 					headers: {
 						'Access-Control-Allow-Origin': '*',
 						'TK': 'N',
+						'Access-Control-Request-Headers': ['X-MESSAGE-ID',
+							'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
+							'X-MESSAGE-ALGO'].join(', '),
 					}
 				};
 			} else {
@@ -121,6 +124,9 @@ exports.handler = async function(event) {
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Methods': 'POST, OPTIONS',
 					'Options': 'POST, OPTIONS',
+					'Access-Control-Request-Headers': ['X-MESSAGE-ID',
+						'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
+						'X-MESSAGE-ALGO'].join(', '),
 				}
 			};
 		} else {
@@ -133,7 +139,12 @@ exports.handler = async function(event) {
 			console.error(err);
 			return {
 				statusCode: 500,
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'Content-Type': 'application/json',
+					'Access-Control-Request-Headers': ['X-MESSAGE-ID',
+						'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
+						'X-MESSAGE-ALGO'].join(', '),
+				},
 				body: JSON.stringify({
 					error: {
 						message: 'An unknown error occured',

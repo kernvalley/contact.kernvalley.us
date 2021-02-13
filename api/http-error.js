@@ -29,12 +29,18 @@ exports.HTTPError = class HTTPError extends Error {
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Methods': 'POST, OPTIONS',
 					'Options': 'POST, OPTIONS',
+					'Access-Control-Request-Headers': ['X-MESSAGE-ID',
+						'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
+						'X-MESSAGE-ALGO'].join(', '),
 				};
 
 			default:
 				return {
 					'Content-Type': 'application/json',
 					'Access-Control-Allow-Origin': '*',
+					'Access-Control-Request-Headers': ['X-MESSAGE-ID',
+						'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
+						'X-MESSAGE-ALGO'].join(', '),
 				};
 		}
 	}
