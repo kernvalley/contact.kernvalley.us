@@ -35,6 +35,7 @@ exports.HTTPError = class HTTPError extends Error {
 				return {
 					'Content-Type': 'application/json',
 					'Access-Control-Allow-Origin': '*',
+					'X-ENV-URL': process.env.BASE_URL,
 				};
 		}
 	}
