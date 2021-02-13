@@ -16,6 +16,7 @@ exports.HTTPError = class HTTPError extends Error {
 			error: {
 				status: this.status,
 				message: this.message,
+				env: process.env,
 			}
 		};
 	}
