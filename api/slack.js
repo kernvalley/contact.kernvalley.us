@@ -21,8 +21,6 @@ exports.handler = async function(event) {
 				throw new HTTPError('Not configured', 501);
 			}
 
-			console.info(event.headers);
-
 			const { postData } = require('./post-data');
 			const { isEmail, isString, isUrl, isTel, validateMessageHeaders } = require('./validation');
 
