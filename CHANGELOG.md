@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.1] - 2021-02-13
+
+### Added
+- Validation and signature to submitted contact from
+- Disable form fields on submit, and re-enable when complete
+
+### Changed
+- Form now requires JS
+- Hide and disable form elements (with `<noscript>` message) until JS executes
+- Messages now handled by POST
+
 ## [v1.1.0] - 2021-02-12
 
 ### Changed

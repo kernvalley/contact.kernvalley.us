@@ -1,7 +1,7 @@
 {
   "name": "KernValley.US Contact",
   "short_name": "KRV Contact",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "lang": "en",
   "dir": "ltr",
   "description": "Contact page for KernValley.US",
@@ -59,8 +59,10 @@
     }
   },
   "categories": [
-    "utility"
+    "utilities"
+
   ],
+  "prefer_related_applications": false,
   "related_applications": [{
     "platform": "webapp",
     "url": "https://contact.kernvalley.us/manifest.json"
