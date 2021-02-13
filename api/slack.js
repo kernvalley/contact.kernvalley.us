@@ -22,7 +22,8 @@ exports.handler = async function(event) {
 			}
 
 			const { postData } = require('./post-data');
-			const { isEmail, isString, isUrl, isTel, validateMessageHeaders } = require('./validation');
+			const { isEmail, isString, isUrl, isTel, validateMessageHeaders,
+				formatPhoneNumber } = require('./validation');
 
 			const {
 				fields: { subject, body, email, name, phone, origin, check } = {}
@@ -66,7 +67,7 @@ exports.handler = async function(event) {
 						text: `Email: ${email}`,
 					}, {
 						type: 'mrkdwn',
-						text: `Phone: ${isTel(phone) ? phone : 'Not given'}`,
+						text: `Phone: ${isTel(phone) ? formatPhoneNumber(phone) : 'Not given'}`,
 					}, {
 						type: 'mrkdwn',
 						text: `Site: ${origin}`,
