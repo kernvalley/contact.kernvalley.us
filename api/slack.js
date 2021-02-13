@@ -21,8 +21,6 @@ exports.handler = async function(event) {
 				throw new HTTPError('Not configured', 501);
 			}
 
-			console.info(event.headers);
-
 			const { postData } = require('./post-data');
 			const { isEmail, isString, isUrl, isTel, validateMessageHeaders } = require('./validation');
 
@@ -87,6 +85,7 @@ exports.handler = async function(event) {
 					}
 				}]
 			};
+
 			const resp = await fetch(process.env.SLACK_WEBHOOK, {
 				method: 'POST',
 				headers: {
@@ -131,7 +130,9 @@ exports.handler = async function(event) {
 				body: JSON.stringify({
 					error: {
 						message: 'An unknown error occured',
-						status: 500
+						status: 500,
+						orig: new Date().getTime() < new Date('2021-02-14T00:00').getTime()
+							? err.message : null,
 					}
 				})
 			};
