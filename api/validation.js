@@ -85,10 +85,10 @@ exports.formatPhoneNumber = (val) => {
 	const nums = val.replace(/\D/g, '');
 
 	if (nums.length === 10) {
-		return `+1-${nums.substr(0, 3)}-${nums.substr(4, 4)}-${nums.substr(6)}`;
+		return `+1-${nums.substr(0, 3)}-${nums.substr(3, 3)}-${nums.substr(6)}`;
 	} else if (nums.length === 11) {
-		return `+${nums.substr(0, 1)}-${nums.substr(1, 3)}-${nums.substr(5, 4)}-${nums.substr(7)}`;
+		return `+${nums.substr(0, 1)}-${nums.substr(1, 3)}-${nums.substr(4, 3)}-${nums.substr(7)}`;
 	} else {
-		return `+${val.replace('+', '')}`;
+		return `+${nums}`;
 	}
 };
