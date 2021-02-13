@@ -1,5 +1,7 @@
 /* eslint-env node */
 const { HTTPError } = require('./http-error');
+const { URL } = require('url');
+
 const ALLOWED_ORIGINS = [
 	'kernvalley.us',
 	'whiskeyflatdays.com',
@@ -7,7 +9,6 @@ const ALLOWED_ORIGINS = [
 ];
 
 function allowedOrigin(url) {
-	const { URL } = require('url');
 	const { hostname, protocol } = new URL(url);
 
 	return protocol === 'https:' && (ALLOWED_ORIGINS.includes(hostname)
@@ -108,7 +109,7 @@ exports.handler = async function(event) {
 					headers: {
 						'Access-Control-Allow-Origin': '*',
 						'TK': 'N',
-						'Access-Control-Request-Headers': ['X-MESSAGE-ID',
+						'Access-Control-Allow-Headers': ['X-MESSAGE-ID',
 							'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
 							'X-MESSAGE-ALGO'].join(', '),
 					}
@@ -124,7 +125,7 @@ exports.handler = async function(event) {
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Methods': 'POST, OPTIONS',
 					'Options': 'POST, OPTIONS',
-					'Access-Control-Request-Headers': ['X-MESSAGE-ID',
+					'Access-Control-Allow-Headers': ['X-MESSAGE-ID',
 						'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
 						'X-MESSAGE-ALGO'].join(', '),
 				}
@@ -141,7 +142,7 @@ exports.handler = async function(event) {
 				statusCode: 500,
 				headers: {
 					'Content-Type': 'application/json',
-					'Access-Control-Request-Headers': ['X-MESSAGE-ID',
+					'Access-Control-Allow-Headers': ['X-MESSAGE-ID',
 						'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
 						'X-MESSAGE-ALGO'].join(', '),
 				},
