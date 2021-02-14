@@ -55,7 +55,8 @@
     "enctype": "application/x-www-form-urlencoded",
     "params": {
       "title": "subject",
-      "text": "body"
+      "text": "body",
+      "url": "url"
     }
   },
   "categories": [

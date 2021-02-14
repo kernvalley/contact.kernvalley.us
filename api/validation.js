@@ -33,9 +33,10 @@ const isString = (str, { minLength = 1, maxLength } = {}) => {
 const isEmail = (str) => isString(str, { minLength: 8 }) && str.includes('@')
 	&& isUrl(`mailto:${str}`) && ! ['/',  '?', '#'].some(char => str.includes(char));
 
-const isUrl = (str) => {
+const isUrl = (str, requireSecure = false) => {
 	try {
-		return new URL(str).href.length !== 0;
+		return new URL(str).href.length !== 0
+			&& (requireSecure === false || str.startsWith('https://'));
 	} catch(e) {
 		return false;
 	}
