@@ -90,7 +90,7 @@
 				</noscript>
 				<meta itemprop="httpMethod" content="GET" />
 				<meta itemprop="encodingType" content="application/x-www-form-urlencoded" />
-				<meta itemprop="urlTemplate" content="https://contact.kernvalley.us/{?subject,body}" />
+				<meta itemprop="urlTemplate" content="https://contact.kernvalley.us/{?subject,body,url}" />
 				<input type="hidden" name="origin" value="https://contact.kernvalley.us" />
 				<fieldset class="no-border" hidden="" disabled="">
 					<legend>Contact Info &amp; Message</legend>
@@ -106,9 +106,12 @@
 						<label for="contact-phone" class="input-label">Phone</label>
 						<input type="tel" name="phone" id="contact-phone" class="input" placeholder="555-555-5555" autocomplete="tel" />
 					</div>
-					<div class="form-group" hidden="">
-						<label for="h-check" class="input-label">Agree</label>
-						<input type="checkbox" name="check" id="h-check" class="input" />
+					<div class="form-group">
+						<label for="contact-url" class="input-label">Page URL</label>
+						<input type="url" name="url" id="contact-url" class="input" placeholder="https://example.com/page" autocomplete="off" />
+						<div class="center">
+							<div class="status-box info inline-block">Optional website this message is about.</div>
+						</div>
 					</div>
 					<div class="form-group">
 						<label for="contact-subject" class="input-label required">Subject</label>
@@ -116,7 +119,11 @@
 					</div>
 					<div class="form-group">
 						<label for="contact-body" class="input-label required">Message</label>
-						<textarea name="body" id="contact-body" class="input" placeholder="What is your message" required=""></textarea>
+						<textarea name="body" id="contact-body" class="input" placeholder="What is your message" autocomplete="off" required=""></textarea>
+					</div>
+					<div class="form-group" hidden="">
+						<label for="h-check" class="input-label">Agree</label>
+						<input type="checkbox" name="check" id="h-check" class="input" />
 					</div>
 				</fieldset>
 				<div class="flex row no-wrap btns">

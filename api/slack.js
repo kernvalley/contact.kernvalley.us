@@ -5,9 +5,11 @@ const { URL } = require('url');
 const ALLOWED_ORIGINS = [
 	'kernvalley.us',
 	'whiskeyflatdays.com',
-	'modest-snyder-6ba512-2143a9.netlify.live',
-	new URL(process.env.BASE_URL || 'http://localhost').hostname,
 ];
+
+if (typeof process.env.BASE_URL === 'string') {
+	ALLOWED_ORIGINS.push(new URL(process.env.BASE_URL).hostname);
+}
 
 function allowedOrigin(url) {
 	const { hostname, protocol } = new URL(url);
@@ -28,7 +30,7 @@ exports.handler = async function(event) {
 				formatPhoneNumber } = require('./validation');
 
 			const {
-				fields: { subject, body, email, name, phone, origin, check } = {}
+				fields: { subject, body, email, name, phone, origin, check, url } = {}
 			} = await postData(event);
 
 			if (isString(check, { minLength: 0 })) {
@@ -72,7 +74,7 @@ exports.handler = async function(event) {
 						text: `Phone: ${isTel(phone) ? formatPhoneNumber(phone) : 'Not given'}`,
 					}, {
 						type: 'mrkdwn',
-						text: `Site: ${origin}`,
+						text: `Origin: ${origin}`,
 					}]
 				}, {
 					type: 'divider',
@@ -91,10 +93,23 @@ exports.handler = async function(event) {
 							text: `Reply to <${email}>`,
 						},
 						url: `mailto:${email}`,
-						action_id: 'email'
+						action_id: 'email',
 					}]
 				}]
 			};
+
+			if (isUrl(url)) {
+				const actions = message.blocks.find(({ type }) => type === 'actions');
+				actions.elements.push({
+					type: 'button',
+					text: {
+						type: 'plain_text',
+						text: `Open ${new URL(url).origin}`
+					},
+					url: url,
+					action_id: 'page_url',
+				});
+			}
 
 			const resp = await fetch(process.env.SLACK_WEBHOOK, {
 				method: 'POST',

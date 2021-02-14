@@ -8,11 +8,17 @@ export async function submitHandler(event) {
 
 	try {
 		const data = new FormData(form);
+
+		if (data.has('check')) {
+			throw new Error('Invalid form data');
+		}
+
 		attr('#contact-form fieldset, #contact-form button', { disabled: true });
 		const { success = false, body = {}} = await send(form.action, {
 			name: data.get('name'),
 			email: data.get('email'),
 			phone: data.get('phone'),
+			url: data.get('url'),
 			subject: data.get('subject'),
 			body: data.get('body'),
 		});
