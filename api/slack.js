@@ -5,6 +5,7 @@ const { URL } = require('url');
 const ALLOWED_ORIGINS = [
 	'kernvalley.us',
 	'whiskeyflatdays.com',
+	'modest-snyder-6ba512-2143a9.netlify.live',
 	new URL(process.env.BASE_URL || 'http://localhost').hostname,
 ];
 
@@ -78,7 +79,7 @@ exports.handler = async function(event) {
 				}, {
 					type: 'context',
 					elements: [{
-						type: 'plain_text',
+						type: 'mrkdwn',
 						text: body,
 					}]
 				}, {
@@ -94,6 +95,7 @@ exports.handler = async function(event) {
 					}]
 				}]
 			};
+
 			const resp = await fetch(process.env.SLACK_WEBHOOK, {
 				method: 'POST',
 				headers: {
