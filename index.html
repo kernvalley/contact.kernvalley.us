@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" class="no-js border-box smooth-scroll" data-layout="wide" data-theme="auto" prefix="og: http://ogp.me/ns#" itemtype="https://schema.org/ContactPage" itemscope="">
+<html lang="en" dir="ltr" class="no-js border-box smooth-scroll" data-layout="wide" data-theme="auto" data-service-worker="/service-worker.js" data-scope="/" data-reload-on-update="" prefix="og: http://ogp.me/ns#" itemtype="https://schema.org/ContactPage" itemscope="">
 	<head>
 		<base href="/" />
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
+		<met name="color-scheme" content="light dark" />
 		<meta name="robots" content="follow,index" />
 		<meta name="description" content="Contact page for KernValley.US" />
 		<meta itemprop="description" content="Contact page for KernValley.US" />
@@ -36,11 +37,10 @@
 		<meta name="theme-color" content="#008000" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="#008000" />
 		<title itemprop="headline">Kern Valley Contact</title>
-		<script src="https://cdn.polyfill.io/v3/polyfill.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" async="" defer=""></script>
-		<script src="https://cdn.polyfill.io/v3/polyfill.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" async="" defer="" nomodule=""></script>
-		<script src="https://unpkg.com/@webcomponents/custom-elements@1.4.3/custom-elements.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer" integrity="sha384-xyhN4T4+9VPh8uXl6uWjGzsqwNXN9C2tla8b6zSrSqYlMFUoeCdoxiEJU0js+GNE" async="" defer="" nomodule=""></script>
-		<!-- <script type="module" src="/js/index.js" async=""></script> -->
-		<script src="/js/index.min.js" async="" defer=""></script>
+		<script src="https://cdn.polyfill.io/v3/polyfill.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer="" nomodule=""></script>
+		<script src="https://unpkg.com/@webcomponents/custom-elements@1.4.3/custom-elements.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" integrity="sha384-xyhN4T4+9VPh8uXl6uWjGzsqwNXN9C2tla8b6zSrSqYlMFUoeCdoxiEJU0js+GNE" defer="" nomodule=""></script>
+		<!-- <script type="module" src="/js/index.js" referrerpolicy="no-referrer"></script> -->
+		<script src="/js/index.min.js" referrerpolicy="no-referrer" defer=""></script>
 		<link rel="manifest" href="/manifest.json" />
 		<link rel="license" href="/LICENSE" />
 		<link rel="icon" href="/img/favicon.svg" type="image/svg+xml" sizes="any" />
@@ -49,8 +49,7 @@
 		<link rel="icon" type="image/png" sizes="16x16" href="/img/icon-16.png" />
 		<link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#008000" />
 		<link rel="shortcut icon" href="/favicon.ico" />
-		<link rel="preload" href="/img/icons.svg" as="image" type="image/svg+xml" />
-		<link rel="preload" as="style" type="text/css" href="https://cdn.kernvalley.us/components/toast-message.css" crossorigin="anonymous" referrerpolicy="no-referrer" importance="low" />
+		<link rel="preload" href="https://cdn.kernvalley.us/fonts/roboto.woff2" as="font" type="font/woff2" crossorigin="anonymous" referrerpolicy="no-referrer" importance="high" />
 		<link rel="preconnect" href="https://api.github.com" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<!-- <link rel="stylesheet" href="/css/index.css" media="all" /> -->
 		<link rel="stylesheet" href="/css/index.min.css" media="all" />
@@ -230,7 +229,7 @@
 				</a>
 			</div>
 		</footer>
-		<button type="button" is="share-button" text="Contact Page for KernValley US" class="btn btn-primary round shadow fixed z-4" aria-label="Share" hidden="">
+		<button type="button" is="share-button" sharetitle="Contact KernValley.US" text="Contact Page for KernValley US" class="btn btn-primary round shadow fixed z-4" aria-label="Share" hidden="">
 			<svg class="icon" height="20" width="20" fill="currentColor" aria-hidden="true" role="img">
 				<use xlink:href="/img/icons.svg#public-share"></use>
 			</svg>
