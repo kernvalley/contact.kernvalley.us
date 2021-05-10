@@ -1,4 +1,4 @@
-import { attr } from 'https://cdn.kernvalley.us/js/std-js/functions.js';
+import { attr } from 'https://cdn.kernvalley.us/js/std-js/dom.js';
 import { alert } from 'https://cdn.kernvalley.us/js/std-js/asyncDialog.js';
 import { send } from 'https://cdn.kernvalley.us/js/std-js/slack.js';
 
