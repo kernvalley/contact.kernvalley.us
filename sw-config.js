@@ -18,7 +18,7 @@ const config = {
 		'https://cdn.kernvalley.us/components/github/user.html',
 		'https://cdn.kernvalley.us/components/github/user.css',
 		'https://cdn.kernvalley.us/components/install/prompt.html',
-		'https://cdn.kernvalley.us/components/install/prompt.css'
+		'https://cdn.kernvalley.us/components/install/prompt.css',
 		'https://cdn.kernvalley.us/img/branding/kernvalley.us.svg',
 		'https://cdn.kernvalley.us/img/keep-kern-clean.svg',
 		'https://cdn.kernvalley.us/img/logos/instagram.svg',
