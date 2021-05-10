@@ -17,8 +17,8 @@ const config = {
 		'https://cdn.kernvalley.us/components/toast-message.css',
 		'https://cdn.kernvalley.us/components/github/user.html',
 		'https://cdn.kernvalley.us/components/github/user.css',
-		'https://cdn.kernvalley.us/components/pwa/prompt.html',
-		'https://cdn.kernvalley.us/components/pwa/prompt.css',
+		'https://cdn.kernvalley.us/components/install/prompt.html',
+		'https://cdn.kernvalley.us/components/install/prompt.css'
 		'https://cdn.kernvalley.us/img/branding/kernvalley.us.svg',
 		'https://cdn.kernvalley.us/img/keep-kern-clean.svg',
 		'https://cdn.kernvalley.us/img/logos/instagram.svg',
@@ -26,8 +26,10 @@ const config = {
 	allowed: [
 		'https://i.imgur.com/',
 		/https:\/\/\\w+\.githubusercontent\.com\/u\//,
+		/\.(jpg|png|gif|webp|svg)$/,
 	],
 	allowedFresh: [
 		'https://api.github.com/users',
+		/\.(json|html|css|js)$/,
 	]
 };
