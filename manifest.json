@@ -60,7 +60,8 @@
     }
   },
   "categories": [
-    "utilities"
+    "utilities",
+    "business"
   ],
   "prefer_related_applications": false,
   "related_applications": [{
