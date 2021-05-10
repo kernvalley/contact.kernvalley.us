@@ -20,7 +20,7 @@ toggleClass(document.documentElement, {
 });
 
 if (typeof GA === 'string') {
-	laoded().then(() => {
+	loaded().then(() => {
 		requestIdleCallback(() => {
 			importGa(GA).then(async ({ send, hasGa, ga }) => {
 				if (hasGa()) {
