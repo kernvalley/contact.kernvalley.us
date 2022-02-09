@@ -51,7 +51,8 @@ exports.handler = async function(event) {
 				throw new HTTPError('Not allowed', 400);
 			}
 
-			const fetch = require('node-fetch');
+			const { default: fetch } = await import('node-fetch');
+
 			const message = {
 				channel: '#message',
 				text: `New Messsage on ${origin}`,
