@@ -51,7 +51,7 @@ exports.handler = async function(event) {
 				throw new HTTPError('Not allowed', 400);
 			}
 
-			const { default: fetch } = await import('node-fetch');
+			// const { default: fetch } = await import('node-fetch');
 
 			const message = {
 				channel: '#message',
@@ -111,6 +111,8 @@ exports.handler = async function(event) {
 					action_id: 'page_url',
 				});
 			}
+
+			const { fetch } = require('./http');
 
 			const resp = await fetch(process.env.SLACK_WEBHOOK, {
 				method: 'POST',
