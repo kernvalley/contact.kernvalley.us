@@ -66,8 +66,8 @@ exports.validateMessageHeaders = ({ headers: {
 		return false;
 	} else if (! isString(algo)) {
 		return false;
-	} else if (Math.abs(new Date(date) - new Date()) > 30000) {
-		// Message is withing a 30 sec window of now
+	} else if (Math.abs(new Date(date) - new Date()) > 86400000) {
+		// Message is withing a 1 day window of now
 		return false;
 	} else {
 		try {
