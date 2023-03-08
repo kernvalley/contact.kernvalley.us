@@ -14,6 +14,7 @@ export async function submitHandler(event) {
 		}
 
 		attr('#contact-form fieldset, #contact-form button', { disabled: true });
+
 		const { success = false, body = {}} = await send(form.action, {
 			name: data.get('name'),
 			email: data.get('email'),
