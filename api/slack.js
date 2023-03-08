@@ -25,13 +25,12 @@ exports.handler = async function(event) {
 				throw new HTTPError('Not configured', 501);
 			}
 
-			const { postData } = require('./post-data');
 			const { isEmail, isString, isUrl, isTel, validateMessageHeaders,
 				formatPhoneNumber } = require('./validation');
 
-			const {
-				fields: { subject, body, email, name, phone, origin, check, url } = {}
-			} = await postData(event);
+			const { subject, body, email, name, phone, origin, check, url } = JSON.parse(event.body);
+
+			console.log({ subject, body, email, name, phone, origin, check, url });
 
 			if (isString(check, { minLength: 0 })) {
 				throw new HTTPError('Invalid data submitted', 400);
@@ -39,7 +38,7 @@ exports.handler = async function(event) {
 				throw new HTTPError('Invalid or missing signature', 400);
 			} else if (! isString(subject, { minLength: 4 })) {
 				throw new HTTPError('No subject given', 400);
-			} else if (! isString(body, { minLength: 4 })) {
+			} else if (! isString(body, { minLength: 1 })) {
 				throw new HTTPError('No body given', 400);
 			} else if (! isString(name, 4)) {
 				throw new HTTPError('No name given', 400);
@@ -110,8 +109,6 @@ exports.handler = async function(event) {
 				});
 			}
 
-			const { fetch } = require('./http');
-
 			const resp = await fetch(process.env.SLACK_WEBHOOK, {
 				method: 'POST',
 				headers: {
@@ -152,6 +149,7 @@ exports.handler = async function(event) {
 			throw new HTTPError(`Unsupported HTTP Method: ${event.httpMethod}`, 405);
 		}
 	} catch(err) {
+		console.error(err);
 		if (err instanceof HTTPError) {
 			return err.response;
 		} else {
