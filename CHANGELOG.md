@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Support & enforce `TrustedTypes`
 
+### Fixed
+- `npm run version:bump:major` now correctly creates a new major version
+
 ## [v1.1.1] - 2021-02-13
 
 ### Added
