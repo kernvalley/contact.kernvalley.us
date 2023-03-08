@@ -3,7 +3,7 @@
 /* 2021-02-14T09:32 */
 
 const config = {
-	version: '1.1.1',
+	version: '1.1.2',
 	fresh: [
 		'https://apps.kernvalley.us/apps.json',
 	].map(url => new URL(url, location.origin).href),
@@ -13,6 +13,8 @@ const config = {
 		'/css/index.min.css',
 		'/img/icons.svg',
 		'/manifest.json',
+		'https://cdn.kernvalley.us/js/shims.min.js',
+		'https://cdn.kernvalley.us/js/std-js/harden.js',
 		'https://cdn.kernvalley.us/components/toast-message.html',
 		'https://cdn.kernvalley.us/components/toast-message.css',
 		'https://cdn.kernvalley.us/components/github/user.html',

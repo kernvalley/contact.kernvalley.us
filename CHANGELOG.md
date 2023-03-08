@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.1.3] - 2023-03-08
+
+### Changed
+- Update to node 18.13.0
+
+### Added
+- Support & enforce `TrustedTypes`
+
 ## [v1.1.1] - 2021-02-13
 
 ### Added
