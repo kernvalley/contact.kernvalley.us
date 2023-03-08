@@ -1,10 +1,13 @@
 /* eslint-env node */
 const { HTTPError } = require('./http-error');
-const { URL } = require('url');
 
 const ALLOWED_ORIGINS = [
 	'kernvalley.us',
 	'whiskeyflatdays.com',
+];
+
+const ALLOWED_HEADERS = [
+	'X-MESSAGE-ID', 'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG', 'X-MESSAGE-ALGO',
 ];
 
 if (typeof process.env.BASE_URL === 'string') {
@@ -29,8 +32,6 @@ exports.handler = async function(event) {
 				formatPhoneNumber } = require('./validation');
 
 			const { subject, body, email, name, phone, origin, check, url } = JSON.parse(event.body);
-
-			console.log({ subject, body, email, name, phone, origin, check, url });
 
 			if (isString(check, { minLength: 0 })) {
 				throw new HTTPError('Invalid data submitted', 400);
@@ -124,9 +125,7 @@ exports.handler = async function(event) {
 					headers: {
 						'Access-Control-Allow-Origin': '*',
 						'TK': 'N',
-						'Access-Control-Allow-Headers': ['X-MESSAGE-ID',
-							'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
-							'X-MESSAGE-ALGO'].join(', '),
+						'Access-Control-Allow-Headers': ALLOWED_HEADERS.join(', '),
 					}
 				};
 			} else {
@@ -140,9 +139,7 @@ exports.handler = async function(event) {
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Methods': 'POST, OPTIONS',
 					'Options': 'POST, OPTIONS',
-					'Access-Control-Allow-Headers': ['X-MESSAGE-ID',
-						'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
-						'X-MESSAGE-ALGO'].join(', '),
+					'Access-Control-Allow-Headers': ALLOWED_HEADERS.join(', '),
 				}
 			};
 		} else {
@@ -158,9 +155,7 @@ exports.handler = async function(event) {
 				statusCode: 500,
 				headers: {
 					'Content-Type': 'application/json',
-					'Access-Control-Allow-Headers': ['X-MESSAGE-ID',
-						'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG',
-						'X-MESSAGE-ALGO'].join(', '),
+					'Access-Control-Allow-Headers': ALLOWED_HEADERS.join(', '),
 				},
 				body: JSON.stringify({
 					error: {
