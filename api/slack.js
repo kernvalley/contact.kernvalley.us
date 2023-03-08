@@ -159,7 +159,7 @@ exports.handler = async function(event) {
 				},
 				body: JSON.stringify({
 					error: {
-						message: err.message,
+						message: 'An unknown error occured',
 						status: 500
 					}
 				})

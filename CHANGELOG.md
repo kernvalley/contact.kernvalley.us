@@ -11,12 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Update to node 18.13.0
+- Update to netlify-js-app v2.1.1
+- Submissions must now be JSON
 
 ### Added
 - Support & enforce `TrustedTypes`
 
 ### Fixed
 - `npm run version:bump:major` now correctly creates a new major version
+
+### Removed
+- Remove lamdba-multipart
 
 ## [v1.1.1] - 2021-02-13
 
