@@ -1,31 +1,40 @@
 /* eslint-env node */
 const { HTTPError } = require('./http-error');
+const { status } =  require('./http-status');
 
 const ALLOWED_ORIGINS = [
-	'kernvalley.us',
-	'whiskeyflatdays.com',
+	'https://kernvalley.us',
+	'https://contact.kernvalley.us',
+	'https://guide.kernvalley.us',
+	'https://maps.kernvalley.us',
+	'https://events.kernvalley.us',
+	'https://news.kernvalley.us',
+	'https://cdn.kernvalley.us',
+	'https://ads.kernvalley.us',
+	'https://camping.kernvalley.us',
+	'https://whiskeyflatdays.com',
 ];
 
+const ALLOW_METHODS = ['POST', 'OPTIONS'];
+
 const ALLOWED_HEADERS = [
-	'X-MESSAGE-ID', 'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN', 'X-MESSAGE-SIG', 'X-MESSAGE-ALGO',
+	'Content-Type', 'X-MESSAGE-ID', 'X-MESSAGE-TIME', 'X-MESSAGE-ORIGIN',
+	'X-MESSAGE-SIG', 'X-MESSAGE-ALGO',
 ];
 
 if (typeof process.env.BASE_URL === 'string') {
-	ALLOWED_ORIGINS.push(new URL(process.env.BASE_URL).hostname);
+	ALLOWED_ORIGINS.push(new URL(process.env.BASE_URL).origin);
 }
 
 function allowedOrigin(url) {
-	const { hostname, protocol } = new URL(url);
-
-	return protocol === 'https:' && (ALLOWED_ORIGINS.includes(hostname)
-		|| hostname.endsWith('.kernvalley.us'));
+	return ALLOWED_ORIGINS.includes(new URL(url).origin);
 }
 
 exports.handler = async function(event) {
 	try {
 		if (event.httpMethod === 'POST') {
 			if (typeof process.env.SLACK_WEBHOOK !== 'string') {
-				throw new HTTPError('Not configured', 501);
+				throw new HTTPError('Not configured', status.NOT_IMPLEMENTED);
 			}
 
 			const { isEmail, isString, isUrl, isTel, validateMessageHeaders,
@@ -34,21 +43,21 @@ exports.handler = async function(event) {
 			const { subject, body, email, name, phone, origin, check, url } = JSON.parse(event.body);
 
 			if (isString(check, { minLength: 0 })) {
-				throw new HTTPError('Invalid data submitted', 400);
+				throw new HTTPError('Invalid data submitted', status.BAD_REQUEST);
 			} else if (! validateMessageHeaders(event)) {
-				throw new HTTPError('Invalid or missing signature', 400);
+				throw new HTTPError('Invalid or missing signature', status.BAD_REQUEST);
 			} else if (! isString(subject, { minLength: 4 })) {
-				throw new HTTPError('No subject given', 400);
+				throw new HTTPError('No subject given', status.BAD_REQUEST);
 			} else if (! isString(body, { minLength: 1 })) {
-				throw new HTTPError('No body given', 400);
+				throw new HTTPError('No body given', status.BAD_REQUEST);
 			} else if (! isString(name, 4)) {
-				throw new HTTPError('No name given', 400);
+				throw new HTTPError('No name given', status.BAD_REQUEST);
 			} else if (! isEmail(email)) {
-				throw new HTTPError('No email address given or email is invalid', 400);
+				throw new HTTPError('No email address given or email is invalid', status.BAD_REQUEST);
 			} else if (! isUrl(origin)) {
-				throw new HTTPError('Missing or invalid origin for message', 400);
+				throw new HTTPError('Missing or invalid origin for message', status.BAD_REQUEST);
 			} else if (! allowedOrigin(origin) || ! allowedOrigin(event.headers.origin)) {
-				throw new HTTPError('Not allowed', 400);
+				throw new HTTPError('Not allowed', status.BAD_REQUEST);
 			}
 
 			const message = {
@@ -99,6 +108,7 @@ exports.handler = async function(event) {
 
 			if (isUrl(url)) {
 				const actions = message.blocks.find(({ type }) => type === 'actions');
+
 				actions.elements.push({
 					type: 'button',
 					text: {
@@ -121,38 +131,41 @@ exports.handler = async function(event) {
 
 			if (resp.ok) {
 				return {
-					statusCode: 204,
+					statusCode: status.NO_CONTENT,
 					headers: {
-						'Access-Control-Allow-Origin': '*',
-						'TK': 'N',
+						'Access-Control-Allow-Origin': event.headers.origin,
 						'Access-Control-Allow-Headers': ALLOWED_HEADERS.join(', '),
 					}
 				};
 			} else {
 				resp.text().then(console.error);
-				throw new HTTPError('Error sending message', 502);
+				throw new HTTPError('Error sending message', status.BAD_GATEWAY);
 			}
 		} else if (event.httpMethod === 'OPTIONS') {
-			return {
-				statusCode: 204,
-				headers: {
-					'Access-Control-Allow-Origin': '*',
-					'Access-Control-Allow-Methods': 'POST, OPTIONS',
-					'Options': 'POST, OPTIONS',
-					'Access-Control-Allow-Headers': ALLOWED_HEADERS.join(', '),
-				}
-			};
+			if (! ('origin' in event.headers)) {
+				return { statusCode: status.BAD_REQUEST };
+			} else if (! allowedOrigin(event.headers.origin)) {
+				return { statusCode: status.BAD_REQUEST };
+			} else {
+				return {
+					statusCode: status.NO_CONTENT,
+					headers: {
+						'Access-Control-Allow-Origin': event.headers.origin,
+						'Access-Control-Allow-Methods': ALLOW_METHODS.join(', '),
+						'Options': ALLOW_METHODS.join(', '),
+						'Access-Control-Allow-Headers': ALLOWED_HEADERS.join(', '),
+					}
+				};
+			}
 		} else {
-			throw new HTTPError(`Unsupported HTTP Method: ${event.httpMethod}`, 405);
+			throw new HTTPError(`Unsupported HTTP Method: ${event.httpMethod}`, status.METHOD_NOT_ALLOWED);
 		}
 	} catch(err) {
-		console.error(err);
 		if (err instanceof HTTPError) {
 			return err.response;
 		} else {
-			console.error(err);
 			return {
-				statusCode: 500,
+				statusCode: status.INTERNAL_SERVER_ERROR,
 				headers: {
 					'Content-Type': 'application/json',
 					'Access-Control-Allow-Headers': ALLOWED_HEADERS.join(', '),
@@ -160,7 +173,7 @@ exports.handler = async function(event) {
 				body: JSON.stringify({
 					error: {
 						message: err.message,
-						status: 500
+						status: status.INTERNAL_SERVER_ERROR,
 					}
 				})
 			};
