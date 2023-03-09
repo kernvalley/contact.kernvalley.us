@@ -1,5 +1,4 @@
 /* eslint-env node */
-require('./fetch-polyfill');
 const { HTTPError } = require('./http-error');
 
 const ALLOWED_ORIGINS = [
