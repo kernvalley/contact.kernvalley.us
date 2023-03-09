@@ -1,4 +1,5 @@
 /* eslint-env node */
+require('./fetch-polyfill');
 const { HTTPError } = require('./http-error');
 
 const ALLOWED_ORIGINS = [
@@ -14,15 +15,11 @@ if (typeof process.env.BASE_URL === 'string') {
 	ALLOWED_ORIGINS.push(new URL(process.env.BASE_URL).hostname);
 }
 
-// function allowedOrigin(url) {
-// 	const { hostname, protocol } = new URL(url);
+function allowedOrigin(url) {
+	const { hostname, protocol } = new URL(url);
 
-// 	return protocol === 'https:' && (ALLOWED_ORIGINS.includes(hostname)
-// 		|| hostname.endsWith('.kernvalley.us'));
-// }
-
-function allowedOrigin() {
-	return true;
+	return protocol === 'https:' && (ALLOWED_ORIGINS.includes(hostname)
+		|| hostname.endsWith('.kernvalley.us'));
 }
 
 exports.handler = async function(event) {
