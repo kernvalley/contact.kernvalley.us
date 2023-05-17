@@ -1,6 +1,6 @@
-import { attr } from 'https://cdn.kernvalley.us/js/std-js/dom.js';
-import { alert } from 'https://cdn.kernvalley.us/js/std-js/asyncDialog.js';
-import { send } from 'https://cdn.kernvalley.us/js/std-js/slack.js';
+import { attr } from '@shgysk8zer0/kazoo/dom.js';
+import { alert } from '@shgysk8zer0/kazoo/asyncDialog.js';
+import { send } from '@shgysk8zer0/kazoo/slack.js';
 
 export async function submitHandler(event) {
 	event.preventDefault();
