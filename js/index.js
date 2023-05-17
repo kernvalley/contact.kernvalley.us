@@ -1,15 +1,11 @@
-import 'https://cdn.kernvalley.us/js/std-js/theme-cookie.js';
-import 'https://cdn.kernvalley.us/components/share-button.js';
-import 'https://cdn.kernvalley.us/components/github/user.js';
-import 'https://cdn.kernvalley.us/components/share-target.js';
-import 'https://cdn.kernvalley.us/components/install/prompt.js';
-import 'https://cdn.kernvalley.us/components/app/list-button.js';
-import { toggleClass, ready, loaded, on, attr } from 'https://cdn.kernvalley.us/js/std-js/dom.js';
-import { getCustomElement } from 'https://cdn.kernvalley.us/js/std-js/custom-elements.js';
-import { getGooglePolicy } from 'https://cdn.kernvalley.us/js/std-js/trust-policies.js';
-import { importGa, externalHandler } from 'https://cdn.kernvalley.us/js/std-js/google-analytics.js';
+import '@shgysk8zer0/kazoo/theme-cookie.js';
+import { toggleClass, ready, loaded, on, attr } from '@shgysk8zer0/kazoo/dom.js';
+import { getCustomElement } from '@shgysk8zer0/kazoo/custom-elements.js';
+import { getGooglePolicy } from '@shgysk8zer0/kazoo/trust-policies.js';
+import { importGa, externalHandler } from '@shgysk8zer0/kazoo/google-analytics.js';
 import { GA } from './consts.js';
 import { submitHandler } from './functions.js';
+import './components.js';
 
 toggleClass(document.documentElement, {
 	'no-dialog': document.createElement('dialog') instanceof HTMLUnknownElement,

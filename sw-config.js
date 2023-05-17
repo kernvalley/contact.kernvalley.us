@@ -1,9 +1,8 @@
 /* eslint no-unused-vars: 0 */
 /* eslint-env serviceworker */
-/* 2021-02-14T09:32 */
 
 const config = {
-	version: '1.1.2',
+	version: '2.0.0',
 	fresh: [
 		'https://apps.kernvalley.us/apps.json',
 	].map(url => new URL(url, location.origin).href),
@@ -13,14 +12,8 @@ const config = {
 		'/css/index.min.css',
 		'/img/icons.svg',
 		'/manifest.json',
-		'https://cdn.kernvalley.us/js/shims.min.js',
-		'https://cdn.kernvalley.us/js/std-js/harden.js',
-		'https://cdn.kernvalley.us/components/toast-message.html',
-		'https://cdn.kernvalley.us/components/toast-message.css',
-		'https://cdn.kernvalley.us/components/github/user.html',
-		'https://cdn.kernvalley.us/components/github/user.css',
-		'https://cdn.kernvalley.us/components/install/prompt.html',
-		'https://cdn.kernvalley.us/components/install/prompt.css',
+		'https://unpkg.com/@shgysk8zer0/polyfills@0.0.7/all.min.js',
+		'https://unpkg.com/@shgysk8zer0/kazoo@0.0.12/harden.js',
 		'https://cdn.kernvalley.us/img/branding/kernvalley.us.svg',
 		'https://cdn.kernvalley.us/img/keep-kern-clean.svg',
 		'https://cdn.kernvalley.us/img/logos/instagram.svg',

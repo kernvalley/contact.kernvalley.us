@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.0.0] - 2023-05-16
+
+### Added
+- Trusted Types support
+- Import map
+
+### Changed
+- Switch from KRV CDN to unpkg for scripts/components
+
 ## [v1.1.3] - 2023-03-08
 
 ### Changed

@@ -161,7 +161,7 @@ exports.handler = async function(event) {
 			throw new HTTPError(`Unsupported HTTP Method: ${event.httpMethod}`, status.METHOD_NOT_ALLOWED);
 		}
 	} catch(err) {
-		if (err instanceof HTTPError) {
+		if (typeof err === 'object' && err instanceof HTTPError) {
 			return err.response;
 		} else {
 			return {
