@@ -62,6 +62,6 @@
   },
   "dependencies": {
     "@shgysk8zer0/http-status": "^1.0.1",
-    "netlify-js-app": "^3.0.4"
+    "netlify-js-app": "^3.2.0"
   }
 }
