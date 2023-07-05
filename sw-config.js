@@ -2,7 +2,7 @@
 /* eslint-env serviceworker */
 
 const config = {
-	version: '2.0.0',
+	version: '2.0.1',
 	fresh: [
 		'https://apps.kernvalley.us/apps.json',
 	].map(url => new URL(url, location.origin).href),
@@ -12,8 +12,8 @@ const config = {
 		'/css/index.min.css',
 		'/img/icons.svg',
 		'/manifest.json',
-		'https://unpkg.com/@shgysk8zer0/polyfills@0.0.7/all.min.js',
-		'https://unpkg.com/@shgysk8zer0/kazoo@0.0.12/harden.js',
+		'https://unpkg.com/@shgysk8zer0/polyfills@0.2.0/all.min.js',
+		'https://unpkg.com/@shgysk8zer0/kazoo@0.2.0/harden.js',
 		'https://cdn.kernvalley.us/img/branding/kernvalley.us.svg',
 		'https://cdn.kernvalley.us/img/keep-kern-clean.svg',
 		'https://cdn.kernvalley.us/img/logos/instagram.svg',
