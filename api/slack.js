@@ -43,7 +43,7 @@ if (typeof process.env.BASE_URL === 'string') {
 
 function allowedOrigin(url) {
 	const origin = new URL(url).origin;
-	return ALLOWED_ORIGINS.includes(origin) || ALLOWED_DOMAIN_SUFFIXES.includes(origin);
+	return ALLOWED_ORIGINS.includes(origin) || ALLOWED_DOMAIN_SUFFIXES.some(suff => origin.endsWith(suff));
 }
 
 export async function handler(event) {
