@@ -1,7 +1,7 @@
 /* eslint-env node */
-const { URL } = require('url');
+import { createHash } from 'node:crypto';
 
-const between = (val, { min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER } = {}) => {
+export const between = (val, { min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER } = {}) => {
 	if (typeof val === 'string') {
 		return between(parseFloat(val), { min, max });
 	} else if (typeof val !== 'number' || Number.isNaN(val)) {
@@ -13,7 +13,7 @@ const between = (val, { min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INT
 	}
 };
 
-const isDate = (str) => {
+export const isDate = (str) => {
 	try {
 		return ! Number.isNaN(new Date(str).getTime());
 	} catch(e) {
@@ -22,7 +22,7 @@ const isDate = (str) => {
 };
 
 /* By default, false on empty strings */
-const isString = (str, { minLength = 1, maxLength } = {}) => {
+export const isString = (str, { minLength = 1, maxLength } = {}) => {
 	if (typeof str !== 'string') {
 		return false;
 	} else {
@@ -30,26 +30,21 @@ const isString = (str, { minLength = 1, maxLength } = {}) => {
 	}
 };
 
-const isEmail = (str) => isString(str, { minLength: 8 }) && str.includes('@')
+export const isEmail = (str) => isString(str, { minLength: 8 }) && str.includes('@')
 	&& isUrl(`mailto:${str}`) && ! ['/',  '?', '#'].some(char => str.includes(char));
 
-const isUrl = (str, requireSecure = false) => {
+export const isUrl = (str, requireSecure = false) => {
 	try {
 		return new URL(str).href.length !== 0
 			&& (requireSecure === false || str.startsWith('https://'));
-	} catch(e) {
+	} catch {
 		return false;
 	}
 };
 
-const isTel = (str) => isString(str, { minLength: 10 });
+export const isTel = (str) => isString(str, { minLength: 10 });
 
-exports.isString = isString;
-exports.isEmail = isEmail;
-exports.isUrl = isUrl;
-exports.isTel = isTel;
-exports.between = between;
-exports.validateMessageHeaders = ({ headers: {
+export const validateMessageHeaders = ({ headers: {
 	'x-message-id': uuid,
 	'x-message-time': date,
 	'x-message-origin': origin,
@@ -71,7 +66,6 @@ exports.validateMessageHeaders = ({ headers: {
 		return false;
 	} else {
 		try {
-			const { createHash } = require('crypto');
 			const hash = createHash(algo.toLowerCase())
 				.update(JSON.stringify({ uuid, date, origin })).digest('hex');
 			return hash === signature;
@@ -82,7 +76,7 @@ exports.validateMessageHeaders = ({ headers: {
 
 };
 
-exports.formatPhoneNumber = (val) => {
+export const formatPhoneNumber = (val) => {
 	const nums = val.replace(/\D/g, '');
 
 	if (nums.length === 10) {

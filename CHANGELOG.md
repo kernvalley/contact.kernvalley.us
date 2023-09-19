@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.1.0] - 2023-09-19
+
+### Fixed
+- Update functions (`/api/`) to use ESModules instead of CommonJS
+
 ## [v2.0.1] - 2023-07-05
 
 ### Changed

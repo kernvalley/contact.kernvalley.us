@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-const status = {
+export const status = {
 	'CONTINUE': 100,
 
 	'OK': 200,
@@ -36,9 +36,6 @@ const status = {
 	'NETWORK_AUTHENTICATION_REQUIRED': 511,
 };
 
-function getStatus(text, fallback = status.INTERNAL_SERVER_ERROR) {
+export function getStatus(text, fallback = status.INTERNAL_SERVER_ERROR) {
 	return status[text.toUpperCase()] || fallback;
 }
-
-exports.status = status;
-exports.getStatus = getStatus;
