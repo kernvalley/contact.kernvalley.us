@@ -25,6 +25,11 @@ const ALLOWED_ORIGINS = [
 	'https://whiskeyflatdays.com',
 ];
 
+const ALLOWED_DOMAIN_SUFFIXES = [
+	'--youthful-ptolemy-382377.netlify.app',
+	'--youthful-ptolemy-382377.netlify.live',
+];
+
 const ALLOW_METHODS = ['POST', 'OPTIONS'];
 
 const ALLOWED_HEADERS = [
@@ -37,7 +42,8 @@ if (typeof process.env.BASE_URL === 'string') {
 }
 
 function allowedOrigin(url) {
-	return ALLOWED_ORIGINS.includes(new URL(url).origin);
+	const origin = new URL(url).origin;
+	return ALLOWED_ORIGINS.includes(origin) || ALLOWED_DOMAIN_SUFFIXES.includes(origin);
 }
 
 export async function handler(event) {

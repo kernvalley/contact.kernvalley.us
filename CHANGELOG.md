@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v2.1.0] - 2023-09-19
 
+### Changed
+- Install & use `@shgysk8zer0/slack` for messages
+
 ### Fixed
 - Update functions (`/api/`) to use ESModules instead of CommonJS
 
