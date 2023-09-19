@@ -1,6 +1,16 @@
 /* eslint-env node */
-const { HTTPError } = require('./http-error');
-const { status } =  require('./http-status');
+import { HTTPError } from './http-error';
+import { status } from './http-status';
+import {
+	SlackMessage, SlackSectionBlock, SlackPlainTextElement, SlackMarkdownElement,
+	SlackButtonElement, SlackHeaderBlock, SlackDividerBlock, SlackContextBlock,
+	SlackActionsBlock, SLACK_DEFAULT, SLACK_PRIMARY, SLACK_DANGER,
+} from '@shgysk8zer0/slack';
+
+import {
+	isEmail, isString, isUrl, isTel, validateMessageHeaders, formatPhoneNumber,
+} from './validation.js';
+
 
 const ALLOWED_ORIGINS = [
 	'https://kernvalley.us',
@@ -15,6 +25,11 @@ const ALLOWED_ORIGINS = [
 	'https://whiskeyflatdays.com',
 ];
 
+const ALLOWED_DOMAIN_SUFFIXES = [
+	'--youthful-ptolemy-382377.netlify.app',
+	'--youthful-ptolemy-382377.netlify.live',
+];
+
 const ALLOW_METHODS = ['POST', 'OPTIONS'];
 
 const ALLOWED_HEADERS = [
@@ -27,18 +42,17 @@ if (typeof process.env.BASE_URL === 'string') {
 }
 
 function allowedOrigin(url) {
-	return ALLOWED_ORIGINS.includes(new URL(url).origin);
+	const origin = new URL(url).origin;
+	return ALLOWED_ORIGINS.includes(origin)
+		|| ALLOWED_DOMAIN_SUFFIXES.some(suff => origin.endsWith(suff));
 }
 
-exports.handler = async function(event) {
+export async function handler(event) {
 	try {
 		if (event.httpMethod === 'POST') {
 			if (typeof process.env.SLACK_WEBHOOK !== 'string') {
 				throw new HTTPError('Not configured', status.NOT_IMPLEMENTED);
 			}
-
-			const { isEmail, isString, isUrl, isTel, validateMessageHeaders,
-				formatPhoneNumber } = require('./validation');
 
 			const { subject, body, email, name, phone, origin, check, url } = JSON.parse(event.body);
 
@@ -60,87 +74,62 @@ exports.handler = async function(event) {
 				throw new HTTPError('Not allowed', status.BAD_REQUEST);
 			}
 
-			const message = {
-				channel: '#message',
-				text: `New Messsage on ${origin}`,
-				blocks: [{
-					type: 'header',
-					text: {
-						type: 'plain_text',
-						text:`Subject: ${subject}`
-					}
-				}, {
-					type: 'section',
-					fields: [{
-						type: 'plain_text',
-						text: `From: ${name}`,
-					}, {
-						type: 'mrkdwn',
-						text: `Email: ${email}`,
-					}, {
-						type: 'mrkdwn',
-						text: `Phone: ${isTel(phone) ? formatPhoneNumber(phone) : 'Not given'}`,
-					}, {
-						type: 'mrkdwn',
-						text: `Origin: ${origin}`,
-					}]
-				}, {
-					type: 'divider',
-				}, {
-					type: 'context',
-					elements: [{
-						type: 'mrkdwn',
-						text: body,
-					}]
-				}, {
-					type: 'actions',
-					elements: [{
-						type: 'button',
-						text: {
-							type: 'plain_text',
-							text: `Reply to <${email}>`,
-						},
+			const nowId = Date.now().toString(34);
+			const actions = new SlackActionsBlock({
+				elements: [
+					new SlackButtonElement(new SlackPlainTextElement(`Reply to <${email}>`), {
 						url: `mailto:${email}`,
-						action_id: 'email',
-					}]
-				}]
-			};
-
-			if (isUrl(url)) {
-				const actions = message.blocks.find(({ type }) => type === 'actions');
-
-				actions.elements.push({
-					type: 'button',
-					text: {
-						type: 'plain_text',
-						text: `Open ${new URL(url).origin}`
-					},
-					url: url,
-					action_id: 'page_url',
-				});
-			}
-
-			const resp = await fetch(process.env.SLACK_WEBHOOK, {
-				method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(message),
+						action: `email-${nowId}`,
+						style: SLACK_PRIMARY,
+					}),
+					new SlackButtonElement(new SlackPlainTextElement(`Open site <${new URL(origin).hostname}>`), {
+						url: origin,
+						action: `origin-${nowId}`,
+						style: SLACK_DEFAULT,
+					}),
+				]
 			});
 
-			if (resp.ok) {
-				return {
-					statusCode: status.NO_CONTENT,
-					headers: {
-						'Access-Control-Allow-Origin': event.headers.origin,
-						'Access-Control-Allow-Headers': ALLOWED_HEADERS.join(', '),
-					}
-				};
-			} else {
-				resp.text().then(console.error);
-				throw new HTTPError('Error sending message', status.BAD_GATEWAY);
+			if (isUrl(url)) {
+				actions.add(
+					new SlackButtonElement(new SlackPlainTextElement(`Open <${new URL(url).hostname}>`),  {
+						url: url,
+						action: `link-${nowId}`,
+						style: SLACK_DANGER,
+					})
+				);
 			}
+
+			const message = new SlackMessage(process.env.SLACK_WEBHOOK,
+				new SlackHeaderBlock(new SlackPlainTextElement(`New message on ${origin}`)),
+				new SlackSectionBlock(new SlackPlainTextElement(`Subject: ${subject}`), {
+					fields: [
+						new SlackMarkdownElement(`*From*: ${name}`),
+						new SlackMarkdownElement(`*Phone*: ${isTel(phone) ? formatPhoneNumber(phone) : 'Not given'}`
+						),
+					],
+				}),
+				new SlackDividerBlock(),
+				new SlackContextBlock({ elements: [new SlackPlainTextElement(body)] }),
+				actions,
+			);
+
+			return await message.send().then(() => ({
+				statusCode: status.NO_CONTENT,
+				headers: {
+					'Access-Control-Allow-Origin': event.headers.origin,
+					'Access-Control-Allow-Headers': ALLOWED_HEADERS.join(', '),
+				},
+				body: '',
+			})).catch(async err => {
+				console.error(err);
+
+				if (err.status !== 0) {
+					await err.openInBlockKitBuilder();
+				}
+
+				throw new HTTPError('Error sending message', status.BAD_GATEWAY);
+			});
 		} else if (event.httpMethod === 'OPTIONS') {
 			if (! ('origin' in event.headers)) {
 				return { statusCode: status.BAD_REQUEST };
@@ -161,6 +150,7 @@ exports.handler = async function(event) {
 			throw new HTTPError(`Unsupported HTTP Method: ${event.httpMethod}`, status.METHOD_NOT_ALLOWED);
 		}
 	} catch(err) {
+		console.error(err);
 		if (typeof err === 'object' && err instanceof HTTPError) {
 			return err.response;
 		} else {
@@ -179,4 +169,4 @@ exports.handler = async function(event) {
 			};
 		}
 	}
-};
+}

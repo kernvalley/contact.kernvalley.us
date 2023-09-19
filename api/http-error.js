@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-exports.HTTPError = class HTTPError extends Error {
+export class HTTPError extends Error {
 	constructor(message, status = 500) {
 		super(message);
 
@@ -73,4 +73,4 @@ exports.HTTPError = class HTTPError extends Error {
 			}
 		}
 	}
-};
+}
