@@ -1,16 +1,16 @@
 /* eslint-env node */
-import { createHandler } from '@shgysk8zer0/netlify-func-utils/crud';
-import { HTTPError } from '@shgysk8zer0/http/error';
-import { BAD_REQUEST, NOT_IMPLEMENTED, NO_CONTENT } from '@shgysk8zer0/consts/status';
+import { createHandler } from '@shgysk8zer0/netlify-func-utils/crud.js';
+import { HTTPError } from '@shgysk8zer0/http/error.js';
+import { BAD_REQUEST, NOT_IMPLEMENTED, NO_CONTENT } from '@shgysk8zer0/consts/status.js';
 import {
 	SlackMessage, SlackSectionBlock, SlackPlainTextElement, SlackMarkdownElement,
 	SlackButtonElement, SlackHeaderBlock, SlackDividerBlock, SlackContextBlock,
 	SlackActionsBlock, SLACK_DEFAULT, SLACK_PRIMARY, SLACK_DANGER,
-} from '@shgysk8zer0/slack';
+} from '@shgysk8zer0/slack/slack.js';
 
 import {
 	isEmail, isString, isUrl, isTel, validateMessageHeaders, formatPhoneNumber,
-} from '@shgysk8zer0/netlify-func-utils/validation';
+} from '@shgysk8zer0/netlify-func-utils/validation.js';
 
 
 const ALLOWED_ORIGINS = [
@@ -47,7 +47,7 @@ export const handler = createHandler({
 			throw new HTTPError('Not configured', { status: NOT_IMPLEMENTED });
 		}
 
-		const { subject, body, email, name, phone, origin, check, url } = await reqon();
+		const { subject, body, email, name, phone, origin, check, url } = await req.json();
 
 		if (isString(check, { minLength: 0 })) {
 			throw new HTTPError('Invalid data submitted', { status: BAD_REQUEST });
@@ -126,3 +126,4 @@ export const handler = createHandler({
 		'X-MESSAGE-SIG', 'X-MESSAGE-ALGO',
 	],
 });
+
