@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Update `api/slack` to use `@shgysk8zer0/netlify-func-utils`, `@shgysk8zer0/http`, & `@shgysk8zer0/consts`
+
+### Removed
+- Remove own copy of non-function modules
+
+### Fixed
+- Fixed GitHub link in footer
+
 ## [v2.1.0] - 2023-09-19
 
 ### Changed

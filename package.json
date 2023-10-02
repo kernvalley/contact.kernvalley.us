@@ -65,14 +65,15 @@
     "netlify:serve": "netlify dev",
     "netlify:live": "netlify dev --live",
     "netlify:link": "netlify link",
+    "netlify:functions": "netlify functions:serve",
     "version:bump": "npm run version:bump:patch",
     "version:bump:patch": "npm version --no-git-tag-version patch && npm run create:lock",
     "version:bump:minor": "npm version --no-git-tag-version minor && npm run create:lock",
     "version:bump:major": "npm version --no-git-tag-version major && npm run create:lock"
   },
   "dependencies": {
-    "@shgysk8zer0/http-status": "^1.1.1",
-    "@shgysk8zer0/slack": "^0.0.4",
+    "@shgysk8zer0/netlify-func-utils": "^1.0.2",
+    "@shgysk8zer0/slack": "^0.0.5",
     "netlify-js-app": "^3.3.0"
   }
 }
