@@ -4,11 +4,11 @@
   publish = "./"
   command = "npm run build"
   functions = "api"
-  external_node_modules = ["@shgysk8zer0/slack", "@shgysk8zer0/consts", "@shgysk8zer0/netlify-func-utils"]
 [dev]
   base = "./"
   publish = "./"
   # command = "npm run build"
   targetPort = 4000
   functions="api"
-
+[functions]
+  external_node_modules = ["@shgysk8zer0/slack", "@shgysk8zer0/consts", "@shgysk8zer0/netlify-func-utils"]
