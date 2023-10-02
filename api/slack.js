@@ -1,6 +1,6 @@
 /* eslint-env node */
-import { createHandler } from '@shgysk8zer0/netlify-func-utils/crud.js';
 import { HTTPError } from '@shgysk8zer0/http/error.js';
+import { createHandler } from '@shgysk8zer0/netlify-func-utils/crud.js';
 import { BAD_REQUEST, NOT_IMPLEMENTED, NO_CONTENT } from '@shgysk8zer0/consts/status.js';
 import {
 	SlackMessage, SlackSectionBlock, SlackPlainTextElement, SlackMarkdownElement,
