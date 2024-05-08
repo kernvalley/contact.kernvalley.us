@@ -1,7 +1,7 @@
 /* eslint-env node */
 import { HTTPError } from '@shgysk8zer0/http/error.js';
 import { createHandler } from '@shgysk8zer0/netlify-func-utils/crud.js';
-import { BAD_REQUEST, NOT_IMPLEMENTED, NO_CONTENT } from '@shgysk8zer0/consts/status.js';
+import { BAD_REQUEST, NOT_IMPLEMENTED, NO_CONTENT, NOT_ACCEPTABLE } from '@shgysk8zer0/consts/status.js';
 import {
 	SlackMessage, SlackSectionBlock, SlackPlainTextElement, SlackMarkdownElement,
 	SlackButtonElement, SlackHeaderBlock, SlackDividerBlock, SlackContextBlock,
@@ -41,17 +41,31 @@ function allowedOrigin(url) {
 		|| ALLOWED_DOMAIN_SUFFIXES.some(suff => origin.endsWith(suff));
 }
 
+async function getBody(req) {
+	switch (req.headers.get('Content-Type').split(';')[0].trim()) {
+		case 'application/json':
+			return await req.json();
+
+		case 'application/x-www-form-urlencoded':
+		case 'multipart/form-data':
+			return await req.formData().then(data => Object.fromEntries(data));
+
+		default:
+			throw new HTTPError(`Unsupported Content-Type: "${req.headers.get('Content-Type')}`, { status: NOT_ACCEPTABLE });
+	}
+}
+
 export const handler = createHandler({
 	post: async req => {
 		if (typeof process.env.SLACK_WEBHOOK !== 'string') {
 			throw new HTTPError('Not configured', { status: NOT_IMPLEMENTED });
 		}
 
-		const { subject, body, email, name, phone, origin, check, url } = await req.json();
+		const { subject, body, email, name, phone, origin, check, url } = await getBody(req);
 
 		if (isString(check, { minLength: 0 })) {
 			throw new HTTPError('Invalid data submitted', { status: BAD_REQUEST });
-		} else if (! validateMessageHeaders({
+		} else if (!validateMessageHeaders({
 			headers: {
 				'x-message-id': req.headers.get('X-Message-Id'),
 				'x-message-time': req.headers.get('X-Message-Time'),
@@ -61,17 +75,17 @@ export const handler = createHandler({
 			}
 		})) {
 			throw new HTTPError('Invalid or missing signature', { status: BAD_REQUEST });
-		} else if (! isString(subject, { minLength: 4 })) {
+		} else if (!isString(subject, { minLength: 4 })) {
 			throw new HTTPError('No subject given', { status: BAD_REQUEST });
-		} else if (! isString(body, { minLength: 1 })) {
+		} else if (!isString(body, { minLength: 1 })) {
 			throw new HTTPError('No body given', { status: BAD_REQUEST });
-		} else if (! isString(name, 4)) {
+		} else if (!isString(name, 4)) {
 			throw new HTTPError('No name given', { status: BAD_REQUEST });
-		} else if (! isEmail(email)) {
+		} else if (!isEmail(email)) {
 			throw new HTTPError('No email address given or email is invalid', { status: BAD_REQUEST });
-		} else if (! isUrl(origin)) {
+		} else if (!isUrl(origin)) {
 			throw new HTTPError('Missing or invalid origin for message', { status: BAD_REQUEST });
-		} else if (! allowedOrigin(origin) || ! allowedOrigin(req.headers.get('Origin'))) {
+		} else if (!allowedOrigin(origin) || !allowedOrigin(req.headers.get('Origin'))) {
 			throw new HTTPError('Not allowed', { status: BAD_REQUEST });
 		}
 
@@ -93,7 +107,7 @@ export const handler = createHandler({
 
 		if (isUrl(url)) {
 			actions.add(
-				new SlackButtonElement(new SlackPlainTextElement(`Open <${new URL(url).hostname}>`),  {
+				new SlackButtonElement(new SlackPlainTextElement(`Open <${new URL(url).hostname}>`), {
 					url: url,
 					action: `link-${nowId}`,
 					style: SLACK_DANGER,
