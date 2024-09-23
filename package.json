@@ -74,6 +74,6 @@
   "dependencies": {
     "@shgysk8zer0/netlify-func-utils": "^1.1.0",
     "@shgysk8zer0/slack": "^0.0.7",
-    "netlify-js-app": "^3.3.1"
+    "netlify-js-app": "^3.3.2"
   }
 }
