@@ -1,5 +1,4 @@
 /* eslint no-unused-vars: 0 */
-/* eslint-env serviceworker */
 
 const config = {
 	version: '2.1.0',
